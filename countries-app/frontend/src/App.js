@@ -19,10 +19,16 @@ function App() {
     fetchCountries();
   }, []);
 
-  // Filter countries when search query changes
+  // Filter countries when search query changes (client-side search)
   useEffect(() => {
     if (searchQuery.trim()) {
-      handleSearch(searchQuery);
+      const query = searchQuery.toLowerCase().trim();
+      const filtered = countries.filter(country =>
+        country.name.toLowerCase().includes(query) ||
+        (country.capital && country.capital.toLowerCase().includes(query)) ||
+        (country.region && country.region.toLowerCase().includes(query))
+      );
+      setFilteredCountries(filtered);
     } else {
       setFilteredCountries(countries);
     }
@@ -33,27 +39,16 @@ function App() {
       setLoading(true);
       setError(null);
       const response = await countryService.getAllCountries();
-      setCountries(response.data);
-      setFilteredCountries(response.data);
+      if (response.data && response.data.length > 0) {
+        setCountries(response.data);
+        setFilteredCountries(response.data);
+      } else {
+        throw new Error('No countries data received');
+      }
     } catch (err) {
       console.error('Error fetching countries:', err);
-      setError('Failed to fetch countries. Please try again later.');
+      setError('Failed to fetch countries. Please check if backend is running on http://localhost:8080');
       setCountries([]);
-      setFilteredCountries([]);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleSearch = async (query) => {
-    try {
-      setLoading(true);
-      setError(null);
-      const response = await countryService.searchCountries(query);
-      setFilteredCountries(response.data);
-    } catch (err) {
-      console.error('Error searching countries:', err);
-      setError('Failed to search countries. Please try again.');
       setFilteredCountries([]);
     } finally {
       setLoading(false);

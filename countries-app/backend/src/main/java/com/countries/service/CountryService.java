@@ -34,7 +34,7 @@ public class CountryService {
      */
     public List<CountryResponse> getAllCountries() {
         if (cachedCountries != null && isCacheValid()) {
-            log.info("Using cached countries data");
+            log.info("Using cached countries data - {} countries", cachedCountries.size());
             return new ArrayList<>(cachedCountries);
         }
         
@@ -42,26 +42,32 @@ public class CountryService {
         try {
             CountryDTO[] countries = restTemplate.getForObject(countriesApiUrl, CountryDTO[].class);
             
-            if (countries == null) {
-                log.warn("No countries data received from API");
+            if (countries == null || countries.length == 0) {
+                log.error("No countries data received from API - received null or empty array");
+                if (cachedCountries != null && !cachedCountries.isEmpty()) {
+                    log.info("Returning {} cached countries due to empty API response", cachedCountries.size());
+                    return new ArrayList<>(cachedCountries);
+                }
                 return Collections.emptyList();
             }
             
             cachedCountries = Arrays.stream(countries)
                     .map(this::convertToResponse)
+                    .filter(country -> country != null && country.getName() != null)
                     .collect(Collectors.toList());
             
             lastCacheTime = System.currentTimeMillis();
-            log.info("Fetched and cached {} countries", cachedCountries.size());
+            log.info("Successfully fetched and cached {} countries from API", cachedCountries.size());
             
             return new ArrayList<>(cachedCountries);
         } catch (Exception e) {
-            log.error("Error fetching countries from API", e);
+            log.error("Error fetching countries from API: {}", e.getMessage(), e);
             // Return cached data if available, even if expired
-            if (cachedCountries != null) {
-                log.info("Returning stale cached data due to API error");
+            if (cachedCountries != null && !cachedCountries.isEmpty()) {
+                log.info("API error occurred. Returning {} stale cached countries", cachedCountries.size());
                 return new ArrayList<>(cachedCountries);
             }
+            log.error("No cached data available. Returning empty list.");
             return Collections.emptyList();
         }
     }
