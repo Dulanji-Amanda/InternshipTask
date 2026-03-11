@@ -1,0 +1,26 @@
+# Backend build
+target/
+*.jar
+*.war
+*.class
+*.ctxt
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.iws
+*.ipr
+*.swp
+*.swo
+
+# Maven
+.m2/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/

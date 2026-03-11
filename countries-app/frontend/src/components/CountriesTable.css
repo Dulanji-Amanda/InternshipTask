@@ -1,0 +1,159 @@
+.table-container {
+  overflow-x: auto;
+  margin-bottom: 20px;
+}
+
+.countries-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.countries-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+}
+
+.countries-table thead th {
+  padding: 16px 12px;
+  text-align: left;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+}
+
+.countries-table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.countries-table tbody tr:hover {
+  background-color: #f8f9ff;
+  box-shadow: inset 0 0 8px rgba(102, 126, 234, 0.1);
+}
+
+.countries-table tbody td {
+  padding: 14px 12px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.flag-image {
+  height: 30px;
+  width: auto;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
+
+.flag-col {
+  width: 70px;
+  text-align: center;
+}
+
+.name-col {
+  width: 18%;
+  font-weight: 500;
+  color: #333;
+}
+
+.capital-col {
+  width: 18%;
+}
+
+.region-col {
+  width: 18%;
+  color: #666;
+}
+
+.population-col {
+  width: 16%;
+  text-align: right;
+  font-family: 'Courier New', monospace;
+  color: #555;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px 20px;
+  font-size: 1.1rem;
+  color: #667eea;
+  font-weight: 500;
+}
+
+.no-results {
+  text-align: center;
+  padding: 60px 20px;
+  font-size: 1.1rem;
+  color: #999;
+  background: #f9f9f9;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+@media (max-width: 1024px) {
+  .name-col,
+  .capital-col,
+  .region-col,
+  .population-col {
+    width: auto;
+  }
+
+  .countries-table thead th,
+  .countries-table tbody td {
+    padding: 12px 8px;
+    font-size: 0.9rem;
+  }
+
+  .flag-image {
+    height: 26px;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .countries-table {
+    font-size: 0.85rem;
+  }
+
+  .countries-table thead th,
+  .countries-table tbody td {
+    padding: 10px 6px;
+  }
+
+  .flag-col {
+    width: 50px;
+  }
+
+  .flag-image {
+    height: 24px;
+  }
+
+  .population-col {
+    text-align: right;
+  }
+}
+
+@media (max-width: 480px) {
+  .countries-table {
+    font-size: 0.8rem;
+  }
+
+  .countries-table thead th,
+  .countries-table tbody td {
+    padding: 8px 4px;
+  }
+
+  .flag-image {
+    height: 20px;
+  }
+
+  .region-col {
+    display: none;
+  }
+}
