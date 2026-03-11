@@ -22,7 +22,7 @@ public class CountryService {
     
     private final RestTemplate restTemplate;
     
-    @Value("${rest-countries.api.url:https://restcountries.com/v3.1/all}")
+    @Value("${rest-countries.api.url:https://restcountries.com/v3.1/all?fields=name,capital,region,population,flags}")
     private String countriesApiUrl;
     
     private List<CountryResponse> cachedCountries;
